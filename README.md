@@ -132,3 +132,20 @@ Recepción de notificaciones: `MomentumAppDelegate`, registrado con `UIApplicati
 
 
 En **Ajustes → Administrar planes → Crear plan desde cero** se abre el editor con una plantilla vacía de un bloque, sin copiar ejercicios del plan base. Completa PLAN, TÍTULO, MINUTOS y el EJERCICIO con su duración o repeticiones; duplica bloques DÍA o EJERCICIO para ampliar el plan. Se valida antes de guardar y el plan nuevo queda sin activar hasta que elijas Activar. Los bloques no definidos mantienen las adaptaciones base existentes.
+
+### Widgets de bloqueo
+
+**Tu sesión de hoy** ofrece el círculo de progreso y el rectángulo de compromiso/pausa. **Tu semana en bolitas** ofrece un segundo rectángulo, con siete indicadores sin texto visible. El circular usa el porcentaje mostrado en la app (1/7 = 14%). El compromiso muestra la hora local de hoy, o “Día de pausa y respiración” para Recovery/descanso. Tocar el rectángulo pendiente abre el selector de hora; los otros abren la app.
+
+Todos leen el mismo snapshot del App Group. Completar, negociar otra hora o registrar descanso/Recovery guarda los datos y solicita actualizar todas las timelines. Las entradas de medianoche eliminan el compromiso anterior. Los snapshots antiguos siguen siendo compatibles.
+
+iOS adapta los colores de bloqueo al modo `vibrant`; el historial distingue también éxito con círculo sólido, pausa con punto interior y pendiente con contorno. [Apariencias de widgets](https://developer.apple.com/documentation/widgetkit/preparing-widgets-for-additional-contexts-and-appearances). La actualización solicitada depende de [WidgetKit](https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date/). Pendiente validar el diseño, enlaces y sincronización en iPhone con App Group firmado.
+
+
+### Widgets de pantalla de bloqueo (Milestone 12)
+
+En el selector de widgets de iOS, **Tu sesión de hoy** ofrece el círculo de progreso semanal y el rectángulo de compromiso/pausa, además de sus tamaños de inicio existentes. **Tu semana en bolitas** añade el segundo rectángulo, con siete indicadores sin texto visible. El circular muestra el porcentaje real redondeado (1/7 = 14%). El compromiso muestra la hora local de hoy; Recovery o descanso muestra “Día de pausa y respiración”. Sin compromiso se usa un mensaje neutro, y al completar se muestra “Buen trabajo!”. Tocar el rectángulo pendiente abre el selector de hora de hoy; los otros abren la app.
+
+Los tres leen el mismo snapshot del App Group. Completar una sesión, guardar la nueva hora o registrar descanso/Recovery guarda los datos y solicita `reloadAllTimelines()`. Las entradas a medianoche eliminan el compromiso del día anterior. Los snapshots anteriores se siguen decodificando, y los días futuros permanecen neutros.
+
+La paleta se define por fase y estado, pero iOS adapta los widgets de bloqueo al modo `vibrant`; no garantiza los colores originales. El historial también distingue éxito con círculo sólido, pausa con círculo y punto interior, y pendiente con contorno. El refresco solicitado depende de la programación de WidgetKit. [Apariencias de widgets](https://developer.apple.com/documentation/widgetkit/preparing-widgets-for-additional-contexts-and-appearances), [actualización de timelines](https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date/). Pendiente comprobar tamaños, tinte, enlaces y sincronización en un iPhone firmado con App Group.

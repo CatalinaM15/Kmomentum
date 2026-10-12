@@ -234,4 +234,37 @@ let restoredOwnPlan = try PlanText.parse(PlanText.export(ownPlan))
 check(restoredOwnPlan == ownPlan, "From-scratch plan survives export and import")
 let ownStrengthPlan = try PlanText.parse(ownPlanText.replacingOccurrences(of: "DURACIÓN: 60", with: "REPETICIONES: 12"))
 check(ownStrengthPlan.blocks[0].routine.exercises[0].reps == 12 && ownStrengthPlan.blocks[0].routine.exercises[0].seconds == nil, "From-scratch template supports strength metrics")
+check(restoredLegacy.commitment == nil && restoredLegacy.recoveryActive == nil, "Legacy snapshots support Lock Screen fields")
+var lockSnapshot = widgetSample
+lockSnapshot.completed = false
+lockSnapshot.commitment = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: lockSnapshot.date)!
+check(lockSnapshot.commitmentMessage == "Tu compromiso de hoy: \(lockSnapshot.commitment!.formatted(date: .omitted, time: .shortened))", "Pending Lock Screen shows exact local commitment")
+check(lockSnapshot.weeklyPercentage == 43 && lockSnapshot.weeklyCompletedDays == 3, "Circular widget matches displayed weekly percentage")
+lockSnapshot.recoveryActive = true
+check(lockSnapshot.commitmentMessage == "Día de pausa y respiración", "Recovery replaces the commitment with care")
+lockSnapshot.recoveryActive = false
+lockSnapshot.pausedWeek = [false, false, false, false, false, false, true]
+check(lockSnapshot.commitmentMessage == "Día de pausa y respiración", "Rest replaces commitment with care")
+check(lockSnapshot.weekState(at: 6) == .paused && lockSnapshot.weeklyCompletedDays == 2, "Purple pause takes precedence and does not add workout progress")
+lockSnapshot.pausedWeek = nil
+lockSnapshot.completed = true
+check(lockSnapshot.commitmentMessage == "Buen trabajo!", "Completed day does not display a pending commitment")
+lockSnapshot.completed = false
+lockSnapshot.commitment = Calendar.current.date(byAdding: .day, value: -1, to: lockSnapshot.commitment!)!
+check(lockSnapshot.commitmentMessage == "Un pequeño paso también cuenta.", "Previous day commitment does not leak to today")
+lockSnapshot.commitment = nil
+check(lockSnapshot.commitmentMessage == "Un pequeño paso también cuenta.", "Pending day without commitment stays gentle")
+lockSnapshot.date = date(2026,10,5)
+lockSnapshot.week = Array(repeating: true, count: 7)
+lockSnapshot.pausedWeek = Array(repeating: true, count: 7)
+check(lockSnapshot.weekState(at: 1) == .pending && lockSnapshot.weekState(at: 7) == .pending && lockSnapshot.weekState(at: -1) == .pending, "Future and out-of-range days stay neutral")
+lockSnapshot.pausedWeek = []
+check(lockSnapshot.weeklyPercentage == 14, "One completed day displays 14 percent on Lock Screen")
+lockSnapshot.week = []
+check(lockSnapshot.weeklyPercentage == 0 && lockSnapshot.weekState(at: 0) == .pending, "Empty legacy week remains safe")
+lockSnapshot = widgetSample
+lockSnapshot.commitment = promise
+lockSnapshot.recoveryActive = true
+let restoredLock = try JSONDecoder().decode(WidgetSnapshot.self, from: JSONEncoder().encode(lockSnapshot))
+check(restoredLock.commitment == promise && restoredLock.recoveryActive == true, "Commitment and Recovery survive shared snapshot encoding")
 print("Passed \(checks) domain checks")
