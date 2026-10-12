@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		000000000000000000000040 /* Shared/WeeklyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003F /* Shared/WeeklyProgressView.swift */; };
+		000000000000000000000041 /* Shared/WeeklyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000003F /* Shared/WeeklyProgressView.swift */; };
+		000000000000000000000042 /* Shared/HabitRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000008 /* Shared/HabitRules.swift */; };
+		00000000000000000000000E /* Shared/WidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000007 /* Shared/WidgetSnapshot.swift */; };
+		00000000000000000000000F /* KMomentumWidget/KMomentumWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000009 /* KMomentumWidget/KMomentumWidget.swift */; };
+		000000000000000000000017 /* KMomentum/DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000001 /* KMomentum/DashboardView.swift */; };
+		000000000000000000000018 /* KMomentum/HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000002 /* KMomentum/HealthService.swift */; };
+		000000000000000000000019 /* KMomentum/Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000003 /* KMomentum/Notifications.swift */; };
+		00000000000000000000001A /* KMomentum/Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000004 /* KMomentum/Models.swift */; };
+		00000000000000000000001B /* KMomentum/Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000005 /* KMomentum/Haptics.swift */; };
+		00000000000000000000001C /* KMomentum/KMomentumApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000006 /* KMomentum/KMomentumApp.swift */; };
+		00000000000000000000001D /* Shared/WidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000007 /* Shared/WidgetSnapshot.swift */; };
+		00000000000000000000001E /* Shared/HabitRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000008 /* Shared/HabitRules.swift */; };
+		000000000000000000000026 /* KMomentumWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 00000000000000000000000B /* KMomentumWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00000000000000000000002F /* KMomentum/SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000002E /* KMomentum/SettingsView.swift */; };
+		000000000000000000000031 /* KMomentum/SessionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000030 /* KMomentum/SessionViews.swift */; };
+		000000000000000000000033 /* KMomentum/PlanLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000032 /* KMomentum/PlanLibraryView.swift */; };
+		000000000000000000000035 /* Shared/PlanText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000034 /* Shared/PlanText.swift */; };
+		000000000000000000000037 /* Shared/WorkoutDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000036 /* Shared/WorkoutDomain.swift */; };
+		000000000000000000000039 /* KMomentum/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000038 /* KMomentum/Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00000000000000000000002C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00000000000000000000002B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000000000016;
+			remoteInfo = KMomentumWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		000000000000000000000027 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				000000000000000000000026 /* KMomentumWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00000000000000000000003F /* Shared/WeeklyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/WeeklyProgressView.swift; sourceTree = "<group>"; };
+		000000000000000000000001 /* KMomentum/DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/DashboardView.swift; sourceTree = "<group>"; };
+		000000000000000000000002 /* KMomentum/HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/HealthService.swift; sourceTree = "<group>"; };
+		000000000000000000000003 /* KMomentum/Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/Notifications.swift; sourceTree = "<group>"; };
+		000000000000000000000004 /* KMomentum/Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/Models.swift; sourceTree = "<group>"; };
+		000000000000000000000005 /* KMomentum/Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/Haptics.swift; sourceTree = "<group>"; };
+		000000000000000000000006 /* KMomentum/KMomentumApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/KMomentumApp.swift; sourceTree = "<group>"; };
+		000000000000000000000007 /* Shared/WidgetSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/WidgetSnapshot.swift; sourceTree = "<group>"; };
+		000000000000000000000008 /* Shared/HabitRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/HabitRules.swift; sourceTree = "<group>"; };
+		000000000000000000000009 /* KMomentumWidget/KMomentumWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentumWidget/KMomentumWidget.swift; sourceTree = "<group>"; };
+		00000000000000000000000A /* KMomentum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = KMomentum.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00000000000000000000000B /* KMomentumWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; path = KMomentumWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		00000000000000000000002E /* KMomentum/SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/SettingsView.swift; sourceTree = "<group>"; };
+		000000000000000000000030 /* KMomentum/SessionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/SessionViews.swift; sourceTree = "<group>"; };
+		000000000000000000000032 /* KMomentum/PlanLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMomentum/PlanLibraryView.swift; sourceTree = "<group>"; };
+		000000000000000000000034 /* Shared/PlanText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/PlanText.swift; sourceTree = "<group>"; };
+		000000000000000000000036 /* Shared/WorkoutDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared/WorkoutDomain.swift; sourceTree = "<group>"; };
+		000000000000000000000038 /* KMomentum/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = KMomentum/Assets.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		000000000000000000000011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000000000020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00000000000000000000000C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000000000A /* KMomentum.app */,
+				00000000000000000000000B /* KMomentumWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		00000000000000000000000D = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000001 /* KMomentum/DashboardView.swift */,
+				000000000000000000000002 /* KMomentum/HealthService.swift */,
+				000000000000000000000003 /* KMomentum/Notifications.swift */,
+				000000000000000000000004 /* KMomentum/Models.swift */,
+				000000000000000000000005 /* KMomentum/Haptics.swift */,
+				000000000000000000000006 /* KMomentum/KMomentumApp.swift */,
+				000000000000000000000007 /* Shared/WidgetSnapshot.swift */,
+				000000000000000000000008 /* Shared/HabitRules.swift */,
+				00000000000000000000003F /* Shared/WeeklyProgressView.swift */,
+				000000000000000000000009 /* KMomentumWidget/KMomentumWidget.swift */,
+				00000000000000000000000C /* Products */,
+				00000000000000000000002E /* KMomentum/SettingsView.swift */,
+				000000000000000000000030 /* KMomentum/SessionViews.swift */,
+				000000000000000000000032 /* KMomentum/PlanLibraryView.swift */,
+				000000000000000000000034 /* Shared/PlanText.swift */,
+				000000000000000000000036 /* Shared/WorkoutDomain.swift */,
+				000000000000000000000038 /* KMomentum/Assets.xcassets */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		000000000000000000000016 /* KMomentumWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000015 /* Build configuration list for PBXNativeTarget "KMomentumWidget" */;
+			buildPhases = (
+				000000000000000000000010 /* Sources */,
+				000000000000000000000011 /* Frameworks */,
+				000000000000000000000012 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KMomentumWidget;
+			productName = KMomentumWidget;
+			productReference = 00000000000000000000000B /* KMomentumWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		000000000000000000000025 /* KMomentum */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000024 /* Build configuration list for PBXNativeTarget "KMomentum" */;
+			buildPhases = (
+				00000000000000000000001F /* Sources */,
+				000000000000000000000020 /* Frameworks */,
+				000000000000000000000021 /* Resources */,
+				000000000000000000000027 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00000000000000000000002D /* PBXTargetDependency */,
+			);
+			name = KMomentum;
+			productName = KMomentum;
+			productReference = 00000000000000000000000A /* KMomentum.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00000000000000000000002B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 2600;
+			};
+			buildConfigurationList = 00000000000000000000002A /* Build configuration list for PBXProject "KMomentum" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = es;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				es,
+				en,
+				Base,
+			);
+			mainGroup = 00000000000000000000000D;
+			productRefGroup = 00000000000000000000000C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				000000000000000000000025 /* KMomentum */,
+				000000000000000000000016 /* KMomentumWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		000000000000000000000012 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000000000021 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000039 /* KMomentum/Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		000000000000000000000010 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00000000000000000000000E /* Shared/WidgetSnapshot.swift in Sources */,
+				00000000000000000000000F /* KMomentumWidget/KMomentumWidget.swift in Sources */,
+				000000000000000000000041 /* Shared/WeeklyProgressView.swift in Sources */,
+				000000000000000000000042 /* Shared/HabitRules.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00000000000000000000001F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000017 /* KMomentum/DashboardView.swift in Sources */,
+				000000000000000000000018 /* KMomentum/HealthService.swift in Sources */,
+				000000000000000000000019 /* KMomentum/Notifications.swift in Sources */,
+				00000000000000000000001A /* KMomentum/Models.swift in Sources */,
+				00000000000000000000001B /* KMomentum/Haptics.swift in Sources */,
+				00000000000000000000001C /* KMomentum/KMomentumApp.swift in Sources */,
+				00000000000000000000001D /* Shared/WidgetSnapshot.swift in Sources */,
+				00000000000000000000001E /* Shared/HabitRules.swift in Sources */,
+				000000000000000000000040 /* Shared/WeeklyProgressView.swift in Sources */,
+				00000000000000000000002F /* KMomentum/SettingsView.swift in Sources */,
+				000000000000000000000031 /* KMomentum/SessionViews.swift in Sources */,
+				000000000000000000000033 /* KMomentum/PlanLibraryView.swift in Sources */,
+				000000000000000000000035 /* Shared/PlanText.swift in Sources */,
+				000000000000000000000037 /* Shared/WorkoutDomain.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00000000000000000000002D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000000000016 /* KMomentumWidget */;
+			targetProxy = 00000000000000000000002C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		000000000000000000000013 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = KMomentumWidget/KMomentumWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = C7U6SVS4HY;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				INFOPLIST_FILE = KMomentumWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kmomentum.app.widget;
+				PRODUCT_NAME = KMomentumWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		000000000000000000000014 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = KMomentumWidget/KMomentumWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C7U6SVS4HY;
+				INFOPLIST_FILE = KMomentumWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kmomentum.app.widget;
+				PRODUCT_NAME = KMomentumWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		000000000000000000000022 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = KMomentum/KMomentum.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = C7U6SVS4HY;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				INFOPLIST_FILE = KMomentum/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kmomentum.app;
+				PRODUCT_NAME = KMomentum;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		000000000000000000000023 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = KMomentum/KMomentum.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C7U6SVS4HY;
+				INFOPLIST_FILE = KMomentum/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kmomentum.app;
+				PRODUCT_NAME = KMomentum;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		000000000000000000000028 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		000000000000000000000029 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		000000000000000000000015 /* Build configuration list for PBXNativeTarget "KMomentumWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000013 /* Debug */,
+				000000000000000000000014 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000000024 /* Build configuration list for PBXNativeTarget "KMomentum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000022 /* Debug */,
+				000000000000000000000023 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00000000000000000000002A /* Build configuration list for PBXProject "KMomentum" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000028 /* Debug */,
+				000000000000000000000029 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00000000000000000000002B /* Project object */;
+}
