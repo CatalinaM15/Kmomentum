@@ -2,6 +2,7 @@ import Foundation
 import UserNotifications
 import AppIntents
 import Observation
+import UIKit
 
 enum ReminderIntent: String { case renegotiate, rest, recovery, chooseCompassion }
 struct PendingReminderAction: Identifiable {
@@ -10,7 +11,24 @@ struct PendingReminderAction: Identifiable {
     let day: Date
 }
 
-@MainActor @Observable final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
+@MainActor final class MomentumAppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        NotificationScheduler.shared.configure(delegate: self)
+        assert(UNUserNotificationCenter.current().delegate === self, "The notification receiver must be registered before launch finishes.")
+        return true
+    }
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        Task { @MainActor in
+            NotificationScheduler.shared.handle(response)
+            completionHandler()
+        }
+    }
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .list, .sound])
+    }
+}
+
+@MainActor @Observable final class NotificationScheduler: NSObject {
     static let shared = NotificationScheduler()
     var startSessionRequest: UUID?
     var requestedMode: SessionMode?
@@ -23,8 +41,8 @@ struct PendingReminderAction: Identifiable {
     private var ownedIdentifiers: [String] {
         (0..<7).flatMap { ["sunset-\($0)", "cycle-daily-\($0)", "fixed-future-\($0)"] } + ["commitment", "fixed-daily"] + (0..<64).map { "persistent-\($0)" }
     }
-    func configure() {
-        center.delegate = self
+    func configure(delegate: UNUserNotificationCenterDelegate) {
+        center.delegate = delegate
         let commit = UNNotificationAction(identifier: "COMMIT", title: "Establecer como la nueva hora de hoy", options: .foreground)
         let mvr = UNNotificationAction(identifier: "MVR", title: "Activar MVR", options: .foreground)
         let rest = UNNotificationAction(identifier: "REST", title: "A descansar", options: .foreground)
@@ -75,21 +93,16 @@ struct PendingReminderAction: Identifiable {
         do { try await center.add(UNNotificationRequest(identifier: plan.identifier, content: content, trigger: trigger)) }
         catch { status = "No se pudo programar: \(error.localizedDescription)" }
     }
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        await MainActor.run {
-            if response.actionIdentifier == "MVR" { self.requestedMode = .mvr }
-            let intent: ReminderIntent?
-            switch response.actionIdentifier {
-            case "COMMIT": intent = .renegotiate
-            case "REST": intent = .rest
-            case "RECOVERY": intent = .recovery
-            default: intent = response.notification.request.content.categoryIdentifier == ReminderRules.secondCategory ? .chooseCompassion : nil
-            }
-            if let intent { self.pendingReminderAction = .init(intent: intent, day: response.notification.date) }
+    func handle(_ response: UNNotificationResponse) {
+        if response.actionIdentifier == "MVR" { self.requestedMode = .mvr }
+        let intent: ReminderIntent?
+        switch response.actionIdentifier {
+        case "COMMIT": intent = .renegotiate
+        case "REST": intent = .rest
+        case "RECOVERY": intent = .recovery
+        default: intent = response.notification.request.content.categoryIdentifier == ReminderRules.secondCategory ? .chooseCompassion : nil
         }
-    }
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        return [.banner, .list, .sound]
+        if let intent { self.pendingReminderAction = .init(intent: intent, day: response.notification.date) }
     }
 }
 struct TriggerMissedHabitShortcut: AppIntent {

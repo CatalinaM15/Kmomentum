@@ -5,6 +5,25 @@ struct PlanTextError: LocalizedError {
     var errorDescription: String? { message }
 }
 enum PlanText {
+    static let blankTemplate = """
+    PLAN:
+
+    # Completa el nombre del plan, el título y los campos de tu primer ejercicio.
+    # Puedes repetir el bloque DÍA para añadir días, fases o modos diferentes.
+    DÍA: Todos
+    FASE: Todas
+    MODO: Estándar
+    TÍTULO:
+    MINUTOS:
+    NOTA:
+
+    EJERCICIO:
+    SERIES: 1
+    # Para fuerza, sustituye DURACIÓN por REPETICIONES.
+    DURACIÓN:
+    DESCANSO: 0
+    TÉCNICA:
+    """
     static let days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     private static func normalized(_ text: String) -> String { text.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "es")).uppercased() }
     static func export(_ plan: PlanDocument) -> String {

@@ -10,6 +10,7 @@ struct PlanLibraryView: View {
         List {
             Section {
                 Text("Guardar conserva el plan. Activar lo elige para tus próximas sesiones. Tu entrenamiento en curso y tu historial no cambian.").font(.subheadline).foregroundStyle(.secondary)
+                NavigationLink("Crear plan desde cero") { PlanEditorView(plan: nil, fromScratch: true) }
                 NavigationLink("Crear desde una copia del plan base") { PlanEditorView(plan: nil) }
             }
             ForEach(plans) { plan in
@@ -51,14 +52,14 @@ struct PlanEditorView: View {
     @State private var copied = false
     @State private var discard = false
     private let original: String
-    init(plan: SavedPlan?) {
+    init(plan: SavedPlan?, fromScratch: Bool = false) {
         self.plan = plan
-        let value = plan?.text ?? PlanText.export(DefaultWorkouts.document)
+        let value = plan?.text ?? (fromScratch ? PlanText.blankTemplate : PlanText.export(DefaultWorkouts.document))
         original = value; _text = State(initialValue: value)
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Edita esta plantilla o pega un plan. DURACIÓN y DESCANSO: segundos. Sin IA. Los bloques no definidos conservan las adaptaciones del plan base.").font(.caption).foregroundStyle(.secondary)
+            Text("Completa los campos de la plantilla o pega tu plan. DURACIÓN y DESCANSO: segundos. Para fuerza, cambia DURACIÓN por REPETICIONES. Los bloques no definidos conservan las adaptaciones del plan base.").font(.caption).foregroundStyle(.secondary)
             HStack {
                 Button(copied ? "Copiado ✓" : "Copiar texto") { UIPasteboard.general.string = text; copied = true }
                 PasteButton(payloadType: String.self) { values in if let first = values.first { text = first; validated = nil } }

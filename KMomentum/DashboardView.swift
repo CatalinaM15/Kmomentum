@@ -17,6 +17,7 @@ struct DashboardView: View {
     @State private var showPeriod = false
     @State private var showCommitment = false
     @State private var commitmentFromSettings = false
+    @State private var waitingForReminderDismissal = false
     @State private var commitmentConfirmation: String?
     @State private var showCommitmentConfirmation = false
     @State private var showCompassionOptions = false
@@ -129,13 +130,14 @@ struct DashboardView: View {
         .onChange(of: NotificationScheduler.shared.pendingReminderAction?.id) { _, _ in handleReminderAction() }
         .onChange(of: NotificationScheduler.shared.showCommitment) { _, value in if value && ready { presentCommitment(); NotificationScheduler.shared.showCommitment = false } }
         .onOpenURL { url in if ready { openURL(url) } else { pendingURL = url } }
-        .sheet(isPresented: $showPeriod, onDismiss: { checkReview() }) { periodSheet }
-        .sheet(isPresented: $showSettings, onDismiss: { if commitmentFromSettings { commitmentFromSettings = false; presentCommitment() }; Task { await refreshDay() } }) {
+        .sheet(isPresented: $showPeriod, onDismiss: { waitingForReminderDismissal = false; handleReminderAction(); checkReview() }) { periodSheet }
+        .sheet(isPresented: $showSettings, onDismiss: { waitingForReminderDismissal = false; if commitmentFromSettings { commitmentFromSettings = false; presentCommitment() }; handleReminderAction(); Task { await refreshDay() } }) {
             if let state { SettingsView(state: state, health: health, onCommitment: { commitmentFromSettings = true; showSettings = false }, onRemindersChanged: { Task { await reschedule() } }) }
         }
         .sheet(isPresented: $showCommitment, onDismiss: { if commitmentConfirmation != nil { showCommitmentConfirmation = true } else { checkReview() } }) { commitmentSheet }
         .alert("Perfecto, creaste un compromiso. Recuerda tu palabra y la hora \(commitmentConfirmation ?? "").", isPresented: $showCommitmentConfirmation) { Button("Aceptar") { commitmentConfirmation = nil } }
         .fullScreenCover(isPresented: $showCompassionOptions, onDismiss: {
+            waitingForReminderDismissal = false
             if let target = startFromCompassion {
                 startFromCompassion = nil
                 if let session = currentSession, session.mode == target {
@@ -148,6 +150,7 @@ struct DashboardView: View {
                 }
             }
             else if let choice = pendingCompassion { pendingCompassion = nil; closeCompassionDay(choice) }
+            else { handleReminderAction() }
         }) {
             GeometryReader { geometry in
                 ScrollView {
@@ -381,21 +384,37 @@ struct DashboardView: View {
         showCommitment = true
     }
     private func handleReminderAction() {
-        guard ready, let action = NotificationScheduler.shared.pendingReminderAction else { return }
+        guard ready, state != nil, scenePhase == .active, !waitingForReminderDismissal,
+              let action = NotificationScheduler.shared.pendingReminderAction else { return }
+        guard Calendar.current.isDateInToday(action.day), !dayClosed else {
+            NotificationScheduler.shared.pendingReminderAction = nil
+            return
+        }
+        if action.intent == .renegotiate {
+            if showCommitment {
+                NotificationScheduler.shared.pendingReminderAction = nil
+                return
+            }
+            // Wait for the existing presentation to dismiss before opening the shared picker.
+            if showSettings || showPeriod || showCompassionOptions {
+                waitingForReminderDismissal = true
+                commitmentFromSettings = false
+                showSettings = false; showPeriod = false; showCompassionOptions = false
+                return
+            }
+        }
         guard !showSettings, !showPeriod, !showCommitment, !showCelebration, !showShortSessionCompletion, !showCompassionOptions, !showCompassionCelebration, !showCommitmentConfirmation, reviewEpisode == nil, !endOptions, !cancelConfirmation else { return }
         NotificationScheduler.shared.pendingReminderAction = nil
-        guard Calendar.current.isDateInToday(action.day), !dayClosed else { return }
         switch action.intent {
-        case .renegotiate:
-            if compassionAvailable { compassionPresentedFor = state?.commitment; showCompassionOptions = true }
-            else { presentCommitment() }
+        case .renegotiate: presentCommitment()
         case .rest: if compassionAvailable { closeCompassionDay(.rest) }
         case .recovery: if compassionAvailable { closeCompassionDay(.recovery) }
         case .chooseCompassion: if compassionAvailable { compassionPresentedFor = state?.commitment; showCompassionOptions = true }
         }
+        assert(action.intent != .renegotiate || showCommitment, "Renegotiating must open the shared time picker.")
     }
     private func presentCompassionIfDue() {
-        guard ready, scenePhase == .active, !dayClosed, compassionAvailable,
+        guard ready, scenePhase == .active, NotificationScheduler.shared.pendingReminderAction == nil, !dayClosed, compassionAvailable,
               !showSettings, !showPeriod, !showCommitment, !showCommitmentConfirmation,
               !showCelebration, !showCompassionCelebration, !showCompassionOptions,
               !showShortSessionCompletion, reviewEpisode == nil, !endOptions, !cancelConfirmation,
@@ -514,7 +533,7 @@ struct DashboardView: View {
         }
     }
     private func checkShortSessionCompletion() {
-        guard ready, !dayClosed, !showCompassionOptions, !showCompassionCelebration, scenePhase == .active, !showShortSessionCompletion, shortSessionChoice == nil,
+        guard ready, NotificationScheduler.shared.pendingReminderAction == nil, !dayClosed, !showCompassionOptions, !showCompassionCelebration, scenePhase == .active, !showShortSessionCompletion, shortSessionChoice == nil,
               !showSettings, !showPeriod, !showCommitment, !showCelebration, reviewEpisode == nil,
               !endOptions, pendingEndAction == nil, !cancelConfirmation, error == nil,
               let session = currentSession, let routine = session.routine,
@@ -580,7 +599,7 @@ struct DashboardView: View {
         handleStartShortcut(); handleReminderAction(); publish(); await reschedule(); presentCompassionIfDue(); checkReview(); checkShortSessionCompletion()
     }
     private func checkReview() {
-        guard ready, !dayClosed, !showCompassionOptions, !showCompassionCelebration, !showCommitmentConfirmation, !showCelebration, !showSettings, !showPeriod, !showCommitment, currentSession == nil else { return }
+        guard ready, NotificationScheduler.shared.pendingReminderAction == nil, !dayClosed, !showCompassionOptions, !showCompassionCelebration, !showCommitmentConfirmation, !showCelebration, !showSettings, !showPeriod, !showCommitment, currentSession == nil else { return }
         let history = logs.filter(\.completed).map { CompletionDay(date: $0.date, mode: $0.intensity) }
         if let episode = SessionRules.mvrEpisode(logs: history, now: Date()), state?.reviewedMVRStart.map({ Calendar.current.isDate($0, inSameDayAs: episode.start) }) != true { reviewEpisode = episode }
     }

@@ -126,3 +126,9 @@ Después de completar MVR y elegir descansar, al pie de la pantalla queda **¿M�
 
 Referencias: [App Intents](https://developer.apple.com/documentation/appintents/appintent), [registro de App Shortcuts](https://developer.apple.com/documentation/appintents/acceleratingappinteractionswithappintents). Pendiente: verificar reconocimiento de Siri, descubrimiento de acciones y automatizaciones reales en iPhone.
 
+
+
+Recepción de notificaciones: `MomentumAppDelegate`, registrado con `UIApplicationDelegateAdaptor`, configura el centro de notificaciones en `willFinishLaunchingWithOptions`, antes de finalizar el arranque. Las respuestas se entregan al gestor en el hilo principal y se completa el callback de iOS; las acciones conservan `.foreground`. Tocar el cuerpo del aviso utiliza la apertura normal de iOS, y elegir un botón conserva su destino pendiente hasta que la interfaz esté activa. [Requisito de registro temprano de Apple](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/delegate). Validar en iPhone tanto con la app en segundo plano como cerrada.
+
+
+En **Ajustes → Administrar planes → Crear plan desde cero** se abre el editor con una plantilla vacía de un bloque, sin copiar ejercicios del plan base. Completa PLAN, TÍTULO, MINUTOS y el EJERCICIO con su duración o repeticiones; duplica bloques DÍA o EJERCICIO para ampliar el plan. Se valida antes de guardar y el plan nuevo queda sin activar hasta que elijas Activar. Los bloques no definidos mantienen las adaptaciones base existentes.
