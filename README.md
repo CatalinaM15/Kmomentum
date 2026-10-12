@@ -114,7 +114,7 @@ El recordatorio fijo (o el de fase si no hay uno fijo) inicia avisos cada cinco 
 Límite de plataforma: la cola local tiene como máximo 64 solicitudes pendientes, incluyendo los avisos de días futuros, y permite el último aviso a medianoche (seis repeticiones para un compromiso a las 23:30). No es un bucle ilimitado con la app cerrada: cubre unas horas y se recalcula al abrir la app, cambiar preferencias o cambiar de día con la app activa. Los avisos de días futuros no pueden iniciar otra cola sin ejecutar la app. La vibración, el sonido y la entrega dependen de los ajustes de iOS. Al negociar o cerrar el día, el recordatorio fijo recurrente se sustituye por seis avisos futuros para silenciar hoy; la recurrencia se restaura en la siguiente actualización sin compromiso vigente.
 
 
-### Siri, Atajos y estado del día (Milestone 11)
+### Siri, Atajos y estado del día 
 
 Los App Shortcuts se registran al iniciar la app. “Oye Siri, empezar KMomentum” abre la app y solicita iniciar la sesión del día o reanudar la que esté pausada. Usa el modo elegido para hoy; si ya completaste MVR, puede iniciar Estándar sin borrar ese éxito. Un día ya completado en Estándar o cerrado como descanso/Recovery no se reinicia. Los diálogos de finalización y revisión existentes se respetan.
 
