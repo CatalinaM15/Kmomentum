@@ -361,6 +361,7 @@ struct DashboardView: View {
                     state?.reminderAcknowledgedAt = Date()
                     state?.remindersEnabled = true
                     guard save() else { return }
+                    publish()
                     await NotificationScheduler.shared.stopPersistence()
                     await reschedule()
                     let formatter = DateFormatter(); formatter.dateFormat = "HH:mm"
@@ -617,6 +618,10 @@ struct DashboardView: View {
     private func openURL(_ url: URL) {
         guard url.scheme == "kmomentum" else { return }
         if url.host == "plans" { showSettings = true }
+        if url.host == "commitment" {
+            NotificationScheduler.shared.pendingReminderAction = .init(intent: .renegotiate, day: Date())
+            handleReminderAction()
+        }
         if url.host == "mvr", !completed, currentSession == nil { setMode(.mvr) }
     }
     private func publish() {
@@ -641,7 +646,8 @@ struct DashboardView: View {
                 let target = calendar.date(byAdding: .day, value: index - HabitRules.weekIndex(date), to: date)!
                 return storedLogs.contains { $0.compassionateChoice != nil && calendar.isDate($0.date, inSameDayAs: target) }
             }
-            return .init(date: date, completed: done, title: workout?.title ?? "Selecciona un plan", minutes: workout?.minutes ?? 0, exercises: workout?.exercises.count ?? 0, mvrMinutes: mvr?.minutes ?? 0, hasPlan: workout != nil, week: week, cyclePhase: phase, pausedWeek: pausedWeek)
+            let commitment = state?.commitment.flatMap { calendar.isDate($0, inSameDayAs: date) ? $0 : nil }
+            return .init(date: date, completed: done, title: workout?.title ?? "Selecciona un plan", minutes: workout?.minutes ?? 0, exercises: workout?.exercises.count ?? 0, mvrMinutes: mvr?.minutes ?? 0, hasPlan: workout != nil, week: week, cyclePhase: phase, pausedWeek: pausedWeek, commitment: commitment, recoveryActive: state?.isSickModeActive == true)
         }
         do { try WidgetSnapshot.save(entries); WidgetCenter.shared.reloadAllTimelines() } catch { self.error = error.localizedDescription }
     }

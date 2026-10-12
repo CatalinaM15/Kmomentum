@@ -1,4 +1,5 @@
 import Foundation
+enum WidgetDayState { case pending, completed, paused }
 struct WidgetSnapshot: Codable {
     var date: Date
     var completed: Bool
@@ -10,9 +11,25 @@ struct WidgetSnapshot: Codable {
     var week: [Bool] = Array(repeating: false, count: 7)
     var cyclePhase: CyclePhase? = nil
     var pausedWeek: [Bool]? = nil
+    var commitment: Date? = nil
+    var recoveryActive: Bool? = nil
+    func weekState(at index: Int) -> WidgetDayState {
+        guard (0..<7).contains(index), index <= HabitRules.weekIndex(date) else { return .pending }
+        if let pausedWeek, pausedWeek.indices.contains(index), pausedWeek[index] { return .paused }
+        return week.indices.contains(index) && week[index] ? .completed : .pending
+    }
+    var weeklyCompletedDays: Int { (0..<7).filter { weekState(at: $0) == .completed }.count }
+    var weeklyPercentage: Int { Int((HabitRules.weeklyProgress(completedDays: weeklyCompletedDays) * 100).rounded()) }
+    var commitmentMessage: String {
+        if paused || recoveryActive == true { return "Día de pausa y respiración" }
+        if completed { return "Buen trabajo!" }
+        if let commitment, Calendar.current.isDate(commitment, inSameDayAs: date) {
+            return "Tu compromiso de hoy: \(commitment.formatted(date: .omitted, time: .shortened))"
+        }
+        return "Un pequeño paso también cuenta."
+    }
     var paused: Bool {
-        let index = HabitRules.weekIndex(date)
-        return pausedWeek?.indices.contains(index) == true ? pausedWeek![index] : false
+        weekState(at: HabitRules.weekIndex(date)) == .paused
     }
     var mediumMessage: String {
         if paused { return "Descansa y respira. Mañana retomamos." }

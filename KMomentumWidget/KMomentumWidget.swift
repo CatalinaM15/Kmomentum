@@ -23,18 +23,19 @@ struct MomentumWidgetView: View {
         Group {
             switch family {
             case .systemSmall:
-                WeeklyProgressView(completedDays: snapshot.week.filter { $0 }.count, cyclePhase: snapshot.cyclePhase ?? .menstrual, animate: false)
+                WeeklyProgressView(completedDays: snapshot.weeklyCompletedDays, cyclePhase: snapshot.cyclePhase ?? .menstrual, animate: false)
             case .accessoryCircular:
-                VStack(spacing: 2) { Image(systemName: snapshot.completed ? "checkmark.circle.fill" : "figure.walk"); if !snapshot.completed { Text(snapshot.hasPlan ? "\(snapshot.minutes)m" : "Abrir").font(.caption2) } }.accessibilityLabel(snapshot.completed ? "Día completado" : "\(snapshot.title), \(snapshot.minutes) minutos")
+                LockProgressView(snapshot: snapshot)
             case .accessoryRectangular:
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(snapshot.completed ? "Día completado ✓" : "Hoy · \(snapshot.title)").font(.headline).lineLimit(2)
-                    if !snapshot.completed && snapshot.hasPlan { Text("\(snapshot.minutes) min · toca para ver sesión").font(.caption) }
-                }
+                LockCommitmentView(snapshot: snapshot)
             default:
                 home
             }
-        }.widgetURL(link).containerBackground(Color(red: 0.96, green: 0.95, blue: 0.92), for: .widget)
+        }.widgetURL(family == .accessoryRectangular && !snapshot.completed && !snapshot.paused && snapshot.recoveryActive != true ? URL(string: "kmomentum://commitment") : link)
+            .containerBackground(for: .widget) {
+                if family == .systemSmall || family == .systemMedium { Color(red: 0.96, green: 0.95, blue: 0.92) }
+                else { Color.clear }
+            }
     }
     private var home: some View {
         VStack(spacing: 12) {
@@ -70,10 +71,73 @@ struct MomentumWidgetView: View {
         .foregroundStyle(Color(red: 0.32, green: 0.39, blue: 0.30))
     }
 }
-@main struct KMomentumWidget: Widget {
+struct KMomentumWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "KMomentum", provider: MomentumProvider()) { MomentumWidgetView(entry: $0) }
-            .configurationDisplayName("Tu sesión de hoy").description("Tu constancia semanal y un impulso para moverte hoy.")
+            .configurationDisplayName("Tu sesión de hoy").description("En inicio, tu constancia semanal. En bloqueo, tu porcentaje o tu compromiso de hoy.")
             .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular])
+    }
+}
+
+private struct LockProgressView: View {
+    let snapshot: WidgetSnapshot
+    private var phaseColor: Color {
+        switch snapshot.cyclePhase {
+        case .menstrual: Color(red: 150/255, green: 113/255, blue: 74/255)
+        case .follicular: Color(red: 57/255, green: 1, blue: 20/255)
+        case .ovulatory: Color.cyan
+        case .luteal: Color(red: 165/255, green: 90/255, blue: 42/255)
+        case nil: Color.primary
+        }
+    }
+    var body: some View {
+        Gauge(value: HabitRules.weeklyProgress(completedDays: snapshot.weeklyCompletedDays)) {
+            Image(systemName: "heart.fill")
+        } currentValueLabel: {
+            Text("\(snapshot.weeklyPercentage)%").font(.caption.weight(.semibold)).minimumScaleFactor(0.7)
+        }.gaugeStyle(.accessoryCircularCapacity).tint(phaseColor).widgetAccentable()
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("Progreso semanal: \(snapshot.weeklyPercentage) por ciento, \(snapshot.weeklyCompletedDays) de 7 días. \(snapshot.cyclePhase.map { "Fase \($0.rawValue)." } ?? "")")
+    }
+}
+private struct LockCommitmentView: View {
+    let snapshot: WidgetSnapshot
+    var body: some View {
+        Text(snapshot.commitmentMessage)
+            .font(.headline).multilineTextAlignment(.center).lineLimit(3).minimumScaleFactor(0.75)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+private struct LockWeekView: View {
+    let snapshot: WidgetSnapshot
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(0..<7) { index in
+                let state = snapshot.weekState(at: index)
+                Image(systemName: state == .paused ? "circle.inset.filled" : state == .completed ? "circle.fill" : "circle")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(state == .paused ? Color.purple : state == .completed ? Color.green : Color.secondary.opacity(0.6))
+                    .frame(maxWidth: .infinity)
+                    .accessibilityLabel("\(["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"][index]): \(state == .paused ? "descanso o recuperación" : state == .completed ? "completado" : "pendiente")")
+            }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .accessibilityElement(children: .contain)
+            .widgetURL(URL(string: "kmomentum://session"))
+            .containerBackground(Color.clear, for: .widget)
+    }
+}
+struct MomentumLockWeekWidget: Widget {
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: "KMomentumLockWeek", provider: MomentumProvider()) { entry in
+            LockWeekView(snapshot: entry.snapshot)
+        }.configurationDisplayName("Tu semana en bolitas")
+            .description("Siete días de constancia y autocuidado, sin presión.")
+            .supportedFamilies([.accessoryRectangular])
+    }
+}
+@main struct MomentumWidgets: WidgetBundle {
+    var body: some Widget {
+        KMomentumWidget()
+        MomentumLockWeekWidget()
     }
 }
